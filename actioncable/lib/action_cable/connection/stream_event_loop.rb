@@ -107,7 +107,7 @@ module ActionCable
                   next unless monitor.readable?
                 end
 
-                incoming = io.read_nonblock(4096, exception: false)
+                incoming = io.read_nonblock(409600, exception: false)
                 case incoming
                 when :wait_readable
                   next
