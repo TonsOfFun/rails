@@ -70,8 +70,10 @@ module ActionCable
       end
 
       def flush_write_buffer
+        puts 'flush_write_buffer'
         @write_lock.synchronize do
           loop do
+            puts 'writing'
             if @write_head.nil?
               return true if @write_buffer.empty?
               @write_head = @write_buffer.pop

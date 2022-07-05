@@ -52,6 +52,7 @@ module ActionCable
       end
 
       def invoke_callback(callback, message)
+        puts 'Base invoke_callback'
         callback.call message
       end
     end

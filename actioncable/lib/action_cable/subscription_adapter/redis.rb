@@ -142,6 +142,7 @@ module ActionCable
           end
 
           def invoke_callback(*)
+            puts 'Redis invoke_callback'
             @event_loop.post { super }
           end
 
