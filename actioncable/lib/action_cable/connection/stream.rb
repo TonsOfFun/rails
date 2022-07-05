@@ -42,6 +42,7 @@ module ActionCable
         if @write_lock.try_lock
           begin
             if @write_head.nil? && @write_buffer.empty?
+              puts 'blocking write'
               written = @rack_hijack_io.write(data, exception: false)
 
               case written
@@ -73,7 +74,7 @@ module ActionCable
         puts 'flush_write_buffer'
         @write_lock.synchronize do
           loop do
-            puts 'writing'
+            puts 'blocking write'
             if @write_head.nil?
               return true if @write_buffer.empty?
               @write_head = @write_buffer.pop
