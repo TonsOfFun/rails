@@ -42,7 +42,7 @@ module ActionCable
         if @write_lock.try_lock
           begin
             if @write_head.nil? && @write_buffer.empty?
-              written = @rack_hijack_io.write_nonblock(data, exception: false)
+              written = @rack_hijack_io.write(data, exception: false)
 
               case written
               when :wait_writable
