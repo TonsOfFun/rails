@@ -42,8 +42,7 @@ module ActionCable
         if @write_lock.try_lock
           begin
             if @write_head.nil? && @write_buffer.empty?
-              puts 'blocking write'
-              written = @rack_hijack_io.write(data, exception: false)
+              written = @rack_hijack_io.write_nonblock(data, exception: false)
 
               case written
               when :wait_writable
@@ -74,13 +73,12 @@ module ActionCable
         puts 'flush_write_buffer'
         @write_lock.synchronize do
           loop do
-            puts 'blocking write'
             if @write_head.nil?
               return true if @write_buffer.empty?
               @write_head = @write_buffer.pop
             end
 
-            written = @rack_hijack_io.write(@write_head, exception: false)
+            written = @rack_hijack_io.write_nonblock(@write_head, exception: false)
             case written
             when :wait_writable
               return false
