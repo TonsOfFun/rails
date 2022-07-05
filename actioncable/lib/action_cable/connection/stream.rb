@@ -79,7 +79,7 @@ module ActionCable
               @write_head = @write_buffer.pop
             end
 
-            written = @rack_hijack_io.write_nonblock(@write_head, exception: false)
+            written = @rack_hijack_io.write(@write_head, exception: false)
             case written
             when :wait_writable
               return false
